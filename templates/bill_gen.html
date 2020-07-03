@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% from "includes/_formhelper.html" import render_field %}
+                                        <form class="custom-validation" name="status_customer" action="" method="post" novalidate id="myform" >
+                                        {{  form.hidden_tag() }}
+                                            <div data-repeater-list="outer-group" class="outer">
+                                                <div data-repeater-item class="outer">
+                                                    <div class="form-group">
+                                                        {{ render_field(form.search, placeholder="Enter Name", class_="form-control") }}
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                                       </form>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                        </div>
+                        <div class="col-sm-9 col-xs-12 content p2-3 pl-0 container">                          
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <!--Invoice-->
+                                    <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm lh-sm">
+                                        <h3 class="m-3">Invoice #INVC-{{ patient.patientID }}</h3>
+            
+                                        <div class="dropdown-divider"></div>
+            
+                                        <div class="row mt-3 mb-4">
+                                            <!--Address-->
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="invoice-from">
+                                                    <address>
+                                                        <p><small>Patient Details</small></p>
+                                                        <strong>{{ patient.name }}</strong><br>
+                                                        <span>Age : {{ patient.age }}yrs</span>
+                                                        <br>
+                                                        <span>Date of Admission : <strong>{{ patient.doa }}</strong></span><br>
+                                                        <span>Date of Discharge : <strong>{{ patient.discharge }}</strong></span><br>
+                                                        <span>Room Type : <span>{{ patient.btype }}</span>
+                                                        <p class="mt-1 mb-0"> Address: <br>{{ patient.address }},{{ patient.city }}</p>
+                                                        <span> {{ patient.state }}</span>
+                                                    </address>
+                                                    
+                                                </div>
+                                            </div>
+            
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="invoice-to text-right">
+                                                    <address>
+                                                        <p><small>Recieved from</small></p>
+                                                        <strong>LifeLine Hospital Ltd</strong>
+                                                        <p class="mt-1 mb-0"> Katras more,jharia</p>
+                                                        <p> dhanbad<br>jharkhand</p>
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/Address-->
+            
+                                        <!--Invoice Order-->
+            
+                                        <div class="table-responsive mt-5">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr class="bg-dark text-white">
+                                                        <th>#</th>
+                                                        <th>Item</th>
+                                                        <th>Category</th>
+                                                        <th>Quantity</th>
+                                                        <th>Unit cost</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i in bill %}
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>{{ i.name }}</td>
+                                                        <td>{{ i.type}}</td>
+                                                        <td>{{ i.quantity }}</td>
+                                                        <td>₹{{ i.rate }}</td>
+                                                        <td>₹{{ i.quantity * i.rate }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td>{{ extra[0] }}</td>
+                                                        <td>Room</td>
+                                                        <td class="text-center">₹{{ extra[1] }}</td>
+                                                        <td class="text-center">{{ patient.totaldate }}</td>
+                                                        <td class="text-right">₹{{ extra[1] * patient.totaldate }}</td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <div class="text-right mt-4 p-4">
+                                                <p><strong>Sub - Total amount: ₹{{ extra[2] }}</strong></p>
+                                                <p><span>vat(10%): ₹{{ 0.10 * extra[2] }}</span></p>
+                                                <h4 class="mt-2"><strong>Total: ₹{{ 0.10 * extra[2] + extra[2] }}</strong></h4>
+                                            </div>
+            
+                                            <div class="dropdown-divider"></div>
+            
+                                            
+                                            <div class="d-print-none">
+                                                <div class="float-right">
+                                                    <form action="" method="post">
+                                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                                        <input type="hidden" name="patientid" value="{{ patient.patientid }}">
+                                                    <input type="submit"  class="btn btn-primary waves-effect waves-light" value="<i class="fa fa-send"></i>">
+                                                    </form>
+                                                </div>
+                                            </div>
+            
+                                        </div>
+            
+                                        <!--/Invoice Order-->
+                                    </div>
+                                    <!--/Invoice-->
+            
+                                </div>
+                            </div>
+            
+            
+                        </div>
+                    </div>
+                 
+<script>// $("#search").blur(function() {
+    //   $("#myform").submit();
+    $( "#search" ).focusout(function() {
+        
+    $("#myform").submit();    
+      })
+      
+      var addSerialNumber = function () {
+    var i = 1
+    $('table tr').each(function(index) {
+        $(this).find('td:nth-child(1)').html(index);
+    });
+};
+
+addSerialNumber();
+
+      </script>
+{% endblock %}

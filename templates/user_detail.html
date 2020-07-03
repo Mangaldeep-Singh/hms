@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% from "includes/_formhelper.html" import render_field %}
+                                        <form class="custom-validation" name="status_customer" action="" method="post" novalidate id="myform" >
+                                        {{  form.hidden_tag() }}
+                                            <div data-repeater-list="outer-group" class="outer">
+                                                <div data-repeater-item class="outer">
+                                                    <div class="form-group">
+                                                        {{ render_field(form.search, placeholder="Enter Name", class_="form-control") }}
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                                       </form>
+                                        
+                                        <table  class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient ID</th>
+                                                    <th>Name</th>
+                                                    <th>AGE</th>
+                                                    <th>DATE OF ADMISSION</th>
+                                                    <th>BED TYPE</th>
+                                                    <th>ADDRESS</th>
+                                                    <th>STATUS</th>
+                                                </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                  <tr>
+                                                    <td>{{ detail.patientID }}</td>
+                                                    <td>{{ detail.name }}</td>
+                                                    <td>{{ detail.age }}</td>
+                                                    <td>{{ (detail.doa) }}</td>
+                                                    <td>{% if(detail.btype == 0) %}
+                                                        <span class="">General Ward</span>
+                                                        {% elif  detail.btype == 1 %}
+                                                        <span class="">Semi Sharing</span>
+                                                        {% elif  detail.btype == 2 %}
+                                                        <span class="">Single room</span>
+                                                        {% endif %}</td>
+                                                    <td>{{ detail.address }}, {{ detail.state }}, {{ detail.city }}</td>
+                                                    <td>
+                                                    {% if(detail.isActive == 0) %}
+                                                    <span class="badge badge-success">Active</span>
+                                                    {% elif (detail.isActive == 1) %}
+                                                    <span class="badge badge-danger">Discharged</span>
+                                                    {% endif %}
+                                                    </td>
+                                                     </tr>
+                                                
+                                                </tbody>
+                                            </table>
+    
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- Sub-title -->
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                  <div class="page-title-box">
+                                    <h4 class="font-size-18">{{ subtitle[0] }}</h4>
+                                    <ol class="breadcrumb mb-0">
+                                      <li class="breadcrumb-item active">{{ subtitle[1] }}</li>
+                                    </ol>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- Sub-title end -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                                                                 
+                                            <table  class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Patient ID</th>
+                                                        <th>Name</th>
+                                                        <th>AGE</th>
+                                                        <th>DATE OF ADMISSION</th>
+                                                        <th>BED TYPE</th>
+                                                        <th>ADDRESS</th>
+                                                        <th>STATUS</th>
+                                                    </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody>
+                                                        {% for row in pharmacy %}
+                                                      <tr>
+                                                        <td>{{ detail.patientID }}</td>
+                                                        <td>{{ detail.name }}</td>
+                                                        <td>{{ detail.age }}</td>
+                                                        <td>{{ (detail.doa) }}</td>
+                                                        <td>{% if(detail.btype == 0) %}
+                                                            <span class="">General Ward</span>
+                                                            {% elif  detail.btype == 1 %}
+                                                            <span class="">Semi Sharing</span>
+                                                            {% elif  detail.btype == 2 %}
+                                                            <span class="">Single room</span>
+                                                            {% endif %}</td>
+                                                        <td>{{ detail.address }}, {{ detail.state }}, {{ detail.city }}</td>
+                                                        <td>
+                                                        {% if(detail.isActive == 0) %}
+                                                        <span class="badge badge-success">Active</span>
+                                                        {% elif (detail.isActive == 1) %}
+                                                        <span class="badge badge-danger">Discharged</span>
+                                                        {% endif %}
+                                                        </td>
+                                                         </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+        
+                                            </div>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+
+
+
+<script>
+// $("#search").blur(function() {
+//   $("#myform").submit();
+$( "#search" ).focusout(function() {
+    
+$("#myform").submit();    
+  })
+    
+
+</script>
+
+
+
+{% endblock %}
